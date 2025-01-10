@@ -1,6 +1,9 @@
 from aiogram.types import Message, ChatMemberAdministrator
 
 
+# admin must be:
+# not bot, command sender or original message author
+# able to delete messages, restrict or ban members
 def is_proper_admin(admin: ChatMemberAdministrator, message: Message) -> bool:
     excluded_admin_ids = {message.from_user.id}
     thread_fst_message = message.reply_to_message
@@ -22,6 +25,7 @@ async def get_admin_usernames(message: Message) -> list[str]:
     return list(admin_usernames)
 
 
+# controlling that bot messages are not too long
 def split_long_text(text_list: list[str]) -> list[str]:
     MAX_MSG_LENGTH = 4096
 

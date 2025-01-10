@@ -1,6 +1,7 @@
 from aiogram import Router
 from aiogram.filters import Command
 from aiogram.types import Message
+
 from utils import get_admin_usernames, split_long_text
 
 handler_router = Router(name=__name__)
@@ -8,7 +9,7 @@ handler_router = Router(name=__name__)
 
 @handler_router.message(Command("start", "help"))
 async def send_info_msg(message: Message) -> None:
-    await message.answer("Hi! This bot mentions all admins (except bots). This would be especially helpful for "
+    await message.answer("Hi! This bot mentions all chat admins (except bots). This would be especially helpful for "
                          "blocking suspicious accounts or ads that are hard for other bots to detect.\nFor found bugs "
                          "or others issues with this bot, message here: @evevtish. Enjoy your use!\n\nПривет! Этот "
                          "бот отправляет в чат упоминания всех админов (кроме ботов). Это будет особенно полезен для "
