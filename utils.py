@@ -15,7 +15,7 @@ async def get_admin_usernames(message: Message) -> list[str]:
     return list(admin_usernames)
 
 
-def limit_msg_length(text_list: list[str]) -> list[str]:
+def split_long_text(text_list: list[str]) -> list[str]:
     MAX_MSG_LENGTH = 4096
 
     cur_message = ''
