@@ -17,7 +17,7 @@ def is_proper_admin(admin: ChatMemberAdministrator, message: Message) -> bool:
                 and
                 (admin.can_delete_messages or admin.can_restrict_members))
     except AttributeError:
-        return False
+        return True
 
 
 async def get_admin_usernames(message: Message) -> list[str]:
