@@ -14,7 +14,6 @@ BOT_TOKEN = ""  # put your bot token here
 
 bot = Bot(BOT_TOKEN)
 dp = Dispatcher()
-
 dp.include_router(handler_router)
 
 
