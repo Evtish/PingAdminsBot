@@ -9,13 +9,13 @@ handler_router = Router(name=__name__)
 
 @handler_router.message(Command("start", "help"))
 async def send_info_msg(message: Message) -> None:
-    await message.answer("Hi! This bot mentions all chat admins (except bots). This would be especially helpful for "
-                         "blocking suspicious accounts or ads that are hard for other bots to detect.\nFor found bugs "
-                         "or others issues with this bot, message here: @evevtish. Enjoy your use!\n\nПривет! Этот "
-                         "бот отправляет в чат упоминания всех админов (кроме ботов). Это будет особенно полезен для "
-                         "блокировки подозрительных аккаунтов или рекламы, которую трудно распознать другим ботам.\n"
-                         "Об обнаруженных багах или по иным вопросам, связанным с этим ботом, писать сюда: @evevtish. "
-                         "Приятного пользования!")
+    await message.answer("Hi! This bot mentions all chat admins (except bots). To do this send /ping. It would be "
+                         "especially helpful for blocking suspicious accounts or ads that are hard for other bots to "
+                         "detect.\nFor found bugs or others issues with this bot, message here: @evevtish. Enjoy your "
+                         "use!\n\nПривет! Этот бот отправляет в чат упоминания всех админов (кроме ботов). Чтобы "
+                         "сделать это, отправьте /ping Это будет особенно полезно для блокировки подозрительных "
+                         "аккаунтов или рекламы, которую трудно распознать другим ботам.\nОб обнаруженных багах или по "
+                         "иным вопросам, связанным с этим ботом, писать сюда: @evevtish. Приятного пользования!")
 
 
 @handler_router.message(Command("ping"))
