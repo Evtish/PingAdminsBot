@@ -12,10 +12,7 @@ async def send_info_msg(message: Message) -> None:
     await message.answer("Hi! This bot mentions all chat admins (except bots). To do this send /ping. It would be "
                          "especially helpful for blocking suspicious accounts or ads that are hard for other bots to "
                          "detect.\nFor found bugs or others issues with this bot, message here: @evevtish. Enjoy your "
-                         "use!\n\nПривет! Этот бот отправляет в чат упоминания всех админов (кроме ботов). Чтобы "
-                         "сделать это, отправьте /ping Это будет особенно полезно для блокировки подозрительных "
-                         "аккаунтов или рекламы, которую трудно распознать другим ботам.\nОб обнаруженных багах или по "
-                         "иным вопросам, связанным с этим ботом, писать сюда: @evevtish. Приятного пользования!")
+                         "use!")
 
 
 @handler_router.message(Command("ping"))
@@ -29,5 +26,4 @@ async def ping_admins(message: Message) -> None:
             else:
                 await message.answer(text)
     else:
-        await message.reply("This command is for groups and supergroups only.\n\nЭта команда предназначена только для "
-                            "групп и супергрупп.")
+        await message.reply("This command is for groups and supergroups only.")
