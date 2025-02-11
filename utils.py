@@ -22,10 +22,13 @@ def is_proper_admin(admin: ChatMemberAdministrator, message: Message) -> bool:
 
 
 def get_link_to_user(user: User) -> str:
+    """
     if user.username:
         return '@' + user.username
     else:
         return markdown.link(user.full_name, f"tg://user?id={user.id}")
+    """
+    return markdown.link(user.full_name, f"tg://user?id={user.id}")
 
 
 async def get_admin_usernames(message: Message) -> list[str]:
