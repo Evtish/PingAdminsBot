@@ -1,24 +1,15 @@
-# import logging
-
-from os import getenv
+import logging
 
 from asyncio import run
 
-from aiogram import Bot, Dispatcher
-# from aiogram.client.session.aiohttp import AiohttpSession
+from config import bot, dp
+from handlers import router
 
-from handlers import handler_router
-
-BOT_TOKEN = getenv("BOT_TOKEN")  # put your bot token here
-# BOT_SESSION = AiohttpSession(proxy='http://proxy.server:3128')
-
-bot = Bot(BOT_TOKEN)
-dp = Dispatcher()
-dp.include_router(handler_router)
+dp.include_router(router)
 
 
 async def main() -> None:
-    # logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG)
     await dp.start_polling(bot)
 
 

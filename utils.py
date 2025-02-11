@@ -1,4 +1,5 @@
-from aiogram.types import Message, ChatMemberAdministrator
+from aiogram.types import Message, ChatMemberAdministrator, User
+from aiogram.utils import markdown
 
 
 # admin must be:
@@ -20,11 +21,19 @@ def is_proper_admin(admin: ChatMemberAdministrator, message: Message) -> bool:
         return True
 
 
+def get_link_to_user(user: User) -> str:
+    if user.username:
+        return '@' + user.username
+    else:
+        return markdown.link(user.full_name, f"tg://user?id={user.id}")
+
+
 async def get_admin_usernames(message: Message) -> list[str]:
     admin_usernames = []
     for cur_admin in await message.chat.get_administrators():
         if is_proper_admin(cur_admin, message):
-            admin_usernames.append('@' + cur_admin.user.username)
+            cur_admin_name = get_link_to_user(cur_admin.user)
+            admin_usernames.append(cur_admin_name)
     return list(admin_usernames)
 
 
