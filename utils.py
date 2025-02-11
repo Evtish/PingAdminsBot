@@ -1,40 +1,23 @@
-from aiogram.types import Message, ChatMemberAdministrator, User
+from aiogram.types import Message, User
 from aiogram.utils import markdown
 
 
-# admin must be:
-# not bot, command sender or original message author
-# able to delete messages, restrict or ban members
-def is_proper_admin(admin: ChatMemberAdministrator, message: Message) -> bool:
-    excluded_admin_ids = {message.from_user.id}
-    thread_fst_message = message.reply_to_message
-    if thread_fst_message:
-        excluded_admin_ids.add(thread_fst_message.from_user.id)
-
-    try:
-        return (admin.user.id not in excluded_admin_ids
-                and
-                not admin.user.is_bot
-                and
-                (admin.can_delete_messages or admin.can_restrict_members))
-    except AttributeError:
-        return True
+from filters import proper_admin
 
 
 def get_link_to_user(user: User) -> str:
-    """
     if user.username:
         return '@' + user.username
     else:
-        return markdown.link(user.full_name, f"tg://user?id={user.id}")
-    """
-    return markdown.link(user.full_name, f"tg://user?id={user.id}")
+        return markdown.hlink(user.full_name, f"tg://user?id={user.id}")
+
+    # return markdown.hlink(user.full_name, f"tg://user?id={user.id}")
 
 
 async def get_admin_usernames(message: Message) -> list[str]:
     admin_usernames = []
     for cur_admin in await message.chat.get_administrators():
-        if is_proper_admin(cur_admin, message):
+        if proper_admin(cur_admin, message):
             cur_admin_name = get_link_to_user(cur_admin.user)
             admin_usernames.append(cur_admin_name)
     return list(admin_usernames)
