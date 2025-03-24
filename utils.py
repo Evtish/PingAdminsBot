@@ -16,15 +16,11 @@ def get_link_to_user(user: User) -> str:
         return markdown.hlink(user.full_name, f"tg://user?id={user.id}")
 
     # return markdown.hlink(user.full_name, f"tg://user?id={user.id}")
-        return markdown.hlink(user.full_name, f"tg://user?id={user.id}")
-
-    # return markdown.hlink(user.full_name, f"tg://user?id={user.id}")
 
 
 async def get_admin_usernames(message: Message) -> list[str]:
     admin_usernames = []
     for cur_admin in await message.chat.get_administrators():
-        if proper_admin(cur_admin, message):
         if proper_admin(cur_admin, message):
             cur_admin_name = get_link_to_user(cur_admin.user)
             admin_usernames.append(cur_admin_name)
