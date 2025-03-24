@@ -72,4 +72,5 @@ async def ping_admins(message: Message):
 async def on_user_join(event: ChatMemberUpdated):
     new_user = event.new_chat_member.user
     await event.answer(f"{markdown.hbold(new_user.full_name)} ({get_link_to_user(new_user)}) has joined {markdown.hunderline(event.chat.full_name)}!")
+    await event.answer(f"{markdown.hbold(new_user.full_name)} ({get_link_to_user(new_user)}) has joined {markdown.hunderline(event.chat.full_name)}!")
     # await bot.delete_message(event.chat.id, event.)
