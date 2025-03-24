@@ -19,7 +19,3 @@ def proper_admin(admin: ChatMemberAdministrator, message: Message) -> bool:
                 (admin.can_delete_messages or admin.can_restrict_members))
     except AttributeError:
         return True
-
-
-# def timeout_passed(prev_time: float, timeout: float) -> bool:
-#     return time() - prev_time >= timeout

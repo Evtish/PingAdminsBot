@@ -15,8 +15,6 @@ def get_link_to_user(user: User) -> str:
     else:
         return markdown.hlink(user.full_name, f"tg://user?id={user.id}")
 
-    # return markdown.hlink(user.full_name, f"tg://user?id={user.id}")
-
 
 async def get_admin_usernames(message: Message) -> list[str]:
     admin_usernames = []
@@ -45,6 +43,7 @@ def split_long_text(text_list: list[str]) -> list[str]:
     return msg_list
 
 
+# decorator
 def limit_command_frequency(func: Callable) -> Callable:
     last_call_time = time() - ADMIN_PING_TIMEOUT
     @wraps(func)
@@ -58,11 +57,12 @@ def limit_command_frequency(func: Callable) -> Callable:
 
         else:
             await message.reply(
-                f"You\'re calling the command too often. Try again in {round(ADMIN_PING_TIMEOUT - deltaTime, 2)} seconds"
+                f"Вы используете команду слишком часто. Попробуйте ещё раз через {round(ADMIN_PING_TIMEOUT - deltaTime, 2)} сек."
             )
     return wrapper
 
 
+# decorator
 def check_chat_type(*valid_types: tuple[str]) -> Callable:
     def decorator(func: Callable) -> Callable:
         @wraps(func)
@@ -70,6 +70,6 @@ def check_chat_type(*valid_types: tuple[str]) -> Callable:
             if message.chat.type in valid_types:
                 return await func(message, *args, **kwargs)
             else:
-                await message.reply(f"This command is for {", ".join(valid_types)} only")
+                await message.reply(f"Команда только для этих типов чатов: {", ".join(valid_types)}")
         return wrapper
     return decorator
