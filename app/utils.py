@@ -1,11 +1,13 @@
-from typing import Callable
+from aiogram import Bot
 from aiogram.types import Message, User
 from aiogram.utils import markdown
+from aiogram.exceptions import TelegramBadRequest, TelegramForbiddenError
 
 from time import time
 from functools import wraps
+from typing import Callable
 
-from filters import proper_admin
+from filters import is_proper_admin
 from config import ADMIN_PING_TIMEOUT
 
 
@@ -19,12 +21,13 @@ def get_link_to_user(user: User) -> str:
 async def get_admin_usernames(message: Message) -> list[str]:
     admin_usernames = []
     for cur_admin in await message.chat.get_administrators():
-        if proper_admin(cur_admin, message):
+        if is_proper_admin(cur_admin, message):
             cur_admin_name = get_link_to_user(cur_admin.user)
             admin_usernames.append(cur_admin_name)
     return list(admin_usernames)
 
 
+# TODO change parameter: list[str] -> str 
 # controlling that bot messages are not too long
 def split_long_text(text_list: list[str]) -> list[str]:
     MAX_MSG_LENGTH = 4096
@@ -43,6 +46,41 @@ def split_long_text(text_list: list[str]) -> list[str]:
     return msg_list
 
 
+# async def notify_admins(text: str, chat_id: int | str, bot: Bot):
+#     for cur_admin in await bot.get_chat_administrators(chat_id):
+#         print(cur_admin.user.username)
+#         await bot.send_message(cur_admin.user.id, text)
+
+
+async def forward_to_admins(message: Message, group_id: int | str, bot: Bot, additional_text: str = None):
+    error_code = 0
+
+    for cur_admin in await bot.get_chat_administrators(group_id):
+        print(error_code)
+        try:
+            if is_proper_admin(cur_admin, message):
+                if additional_text:
+                    await bot.send_message(cur_admin.user.id, additional_text)
+                await message.forward(cur_admin.user.id)
+
+            #-----------------------------
+            # print(cur_admin.user.username)
+            #-----------------------------
+        except TelegramBadRequest:
+            error_code = 1
+        except TelegramForbiddenError:
+            error_code = 2
+
+    match error_code:
+        case 0:
+            await message.answer("Ваше сообщение было успешно отправлено всем админам")
+        case 1:
+            await message.answer("Ошибка при отправке сообщения: чат не найдет")
+        case 2:
+            await message.answer("Сообщение дошло не до всех админов. Кто-то из них не начал диалог с ботом")
+        
+
+
 # decorator
 def limit_command_frequency(func: Callable) -> Callable:
     last_call_time = time() - ADMIN_PING_TIMEOUT
@@ -57,7 +95,7 @@ def limit_command_frequency(func: Callable) -> Callable:
 
         else:
             await message.reply(
-                f"Вы используете команду слишком часто. Попробуйте ещё раз через {round(ADMIN_PING_TIMEOUT - deltaTime, 2)} сек."
+                f"Вы используете команду слишком часто. Попробуйте ещё раз через {round(ADMIN_PING_TIMEOUT - deltaTime, 1)} сек."
             )
     return wrapper
 
