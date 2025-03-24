@@ -5,15 +5,14 @@ from aiogram.types import Message, ChatMemberUpdated
 from aiogram.utils import markdown
 # from aiogram.exceptions import TelegramBadRequest, TelegramForbiddenError
 
+from utils.decorators import check_chat_type, limit_command_frequency
+from utils.private_chating import forward_to_admins, answer_to_goy
 from config import BotStates, TARGET_CHAT_ID
 
-from utils import (
+from utils.tools import (
     get_admin_usernames,
     split_long_text,
-    get_link_to_user,
-    forward_to_admins,
-    limit_command_frequency,
-    check_chat_type
+    get_link_to_user
 )
 
 router = Router(name=__name__)
@@ -68,11 +67,6 @@ async def create_new_thread(message: Message, state: FSMContext, bot: Bot):
     # TODO split long text
     mailing_prefix = markdown.hitalic(f"Сообщение от {get_link_to_user(message.from_user)}:")
     await state.set_state(BotStates.BASIC_STATE)
+
     await forward_to_admins(message, TARGET_CHAT_ID, bot, additional_text=mailing_prefix)
-    # try:
-    #     await forward_to_admins(message, TARGET_CHAT_ID, bot, additional_text=mailing_prefix)
-    #     await message.answer("Ваше сообщение было успешно отправлено всем админам")
-    # except TelegramForbiddenError:
-    #     await message.answer("Сообщение дошло не до всех админов. Кто-то из них не начал диалог с ботом")
-    # except TelegramBadRequest:
-    #     await message.answer("Ошибка при отправке сообщения: чат не найдет")
+    # await answer_to_goy()

@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 class BotStates(StatesGroup):
     BASIC_STATE = State()
     CREATE_NEW_THREAD = State()
-    SET_TARGET_CHAT = State()
+    ADMIN_CHOOSE_THREAD = State()
     
 
 load_dotenv()
