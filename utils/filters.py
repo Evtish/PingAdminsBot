@@ -12,7 +12,10 @@ def is_proper_admin(admin: ChatMemberAdministrator, message: Message) -> bool:
 
     try:
         return (admin.user.id not in excluded_admin_ids
-                and
-                (admin.can_delete_messages or admin.can_restrict_members))
+            and
+            not admin.user.is_bot
+            and
+            (admin.can_delete_messages or admin.can_restrict_members)
+        )
     except AttributeError:
         return True

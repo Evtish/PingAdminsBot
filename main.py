@@ -3,9 +3,9 @@ import logging
 from asyncio import run
 
 from config import bot, dp
-from handlers import router
+from handlers import main_handler_router
 
-dp.include_router(router)
+dp.include_router(main_handler_router)
 
 
 async def main() -> None:

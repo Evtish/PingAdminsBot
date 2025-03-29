@@ -14,6 +14,7 @@ def get_link_to_user(user: User) -> str:
 async def get_admin_usernames(message: Message) -> list[str]:
     admin_usernames = []
     for cur_admin in await message.chat.get_administrators():
+        print(cur_admin.user.username)
         if is_proper_admin(cur_admin, message):
             cur_admin_name = get_link_to_user(cur_admin.user)
             admin_usernames.append(cur_admin_name)
