@@ -1,7 +1,7 @@
 # from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram import Bot
 from aiogram import Dispatcher
-from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.storage.redis import RedisStorage
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums.parse_mode import ParseMode
 from aiogram.fsm.state import StatesGroup, State
@@ -19,12 +19,15 @@ class BotStates(StatesGroup):
 
 load_dotenv()
 
+REDIS_URL = getenv("REDIS_URL")
 BOT_TOKEN = getenv("BOT_TOKEN")  # put your bot token here
 # BOT_SESSION = AiohttpSession(proxy='http://proxy.server:3128')
 
+redis_storage = RedisStorage.from_url(REDIS_URL)
+
 # TODO maybe transfer bot into main function
 bot = Bot(BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-dp = Dispatcher(storage=MemoryStorage())  # TODO change to redis
+dp = Dispatcher(storage=redis_storage)
 
 ADMIN_PING_TIMEOUT = 10  # 10 seconds
 TARGET_CHAT_ID = -1001692257147
@@ -37,7 +40,6 @@ KB_BUTTONS = {
     "thread_management": {
         "thread_1": "Взять диалог",
         "thread_0": "Отказаться",
-        "ds_club": "валерий ливадный порно"
     },
     "suggestion_management": {
         "suggestion_1": "За предложение",

@@ -1,6 +1,6 @@
 from aiogram.utils import markdown
-from utils.decorators import check_chat_type, limit_command_frequency
-from utils.helpers import get_admin_usernames, get_link_to_user, split_long_text
+from utils.decorator_utils import check_chat_type, limit_command_frequency
+from utils.base_utils import get_admin_usernames, get_link_to_user, split_long_text
 
 from aiogram import Router
 from aiogram.filters import IS_MEMBER, IS_NOT_MEMBER, ChatMemberUpdatedFilter, Command
@@ -32,8 +32,8 @@ async def ping_admins(message: Message):
 #     # TODO add useful links, etc.
 #     await event.answer(
 #         f"{markdown.hbold(new_user.full_name)} ({get_link_to_user(new_user)}) присоединился к "
-#         f"{markdown.hunderline(event.chat.full_name)}, добро пожаловать!\n\Перед началом общения "
-#         f"не забудьте ознакомиться с {markdown.hlink("правилами", "https://t.me/clubnds/60944/705865")} нашего чата"
+#         f"{markdown.hunderline(event.chat.full_name)}, добро пожаловать!\nПеред началом общения "
+#         f"не забудьте ознакомиться с {markdown.hlink('правилами', 'https://t.me/clubnds/60944/705865')} нашего чата"
 #     )
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
