@@ -8,6 +8,8 @@ from config import ADMIN_PING_TIMEOUT
 
 
 def check_chat_type(*valid_types: tuple[str]) -> Callable:
+    """проверка соответствия типа текущего чата заданному"""
+
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         async def wrapper(message: Message, *args, **kwargs):
@@ -20,6 +22,8 @@ def check_chat_type(*valid_types: tuple[str]) -> Callable:
 
 
 def limit_command_frequency(func: Callable) -> Callable:
+    """ограничение частоты вызова команды"""
+
     last_call_time = time() - ADMIN_PING_TIMEOUT
     @wraps(func)
     async def wrapper(message: Message, *args, **kwargs):
@@ -31,7 +35,8 @@ def limit_command_frequency(func: Callable) -> Callable:
             return await func(message, *args, **kwargs)
 
         else:
+            remained_time = round(ADMIN_PING_TIMEOUT - deltaTime, 1)
             await message.reply(
-                f"Вы используете команду слишком часто. Попробуйте ещё раз через {round(ADMIN_PING_TIMEOUT - deltaTime, 1)} сек."
+                f"Вы используете команду слишком часто. Попробуйте ещё раз через {remained_time} сек."
             )
     return wrapper

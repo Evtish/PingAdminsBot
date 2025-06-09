@@ -30,7 +30,7 @@ bot = Bot(BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher(storage=redis_storage)
 
 ADMIN_PING_TIMEOUT = 10  # 10 seconds
-TARGET_CHAT_ID = -1001692257147
+TARGET_CHAT_ID = -4977208701
 
 # TODO transfer text into JSON
 KB_BUTTONS = {
